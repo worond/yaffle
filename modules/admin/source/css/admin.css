@@ -1,0 +1,72 @@
+.tree-view {
+  padding-left: 0;
+  list-style: none;
+}
+
+.tree-view div.tree-item {
+  position: relative;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.tree-item {
+  padding: 10px 15px;
+}
+
+.tree-item span.indent {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.tree-item a.chevron {
+  width: 20px;
+  display: inline-block;
+  text-align: center;
+}
+
+.tree-title {
+  font-weight: 600;
+}
+
+.tree-label {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #777;
+}
+
+.tree-badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  float: right;
+}
+
+a.delete-image {
+  position: absolute;
+  padding-right: 15px;
+  padding-left: 15px;
+  opacity: 0;
+  width: calc(100% - 30px);
+  height: 100%;
+  top: 0;
+  left: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  font-size: 5em;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+a.delete-image:hover {
+  opacity: 1;
+}

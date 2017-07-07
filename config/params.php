@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
+    'applicationName' => '<b>Yaffle</b> CMS',
+    'applicationNameShort' => '<b>Y</b>',
 ];
