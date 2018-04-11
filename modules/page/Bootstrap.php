@@ -15,7 +15,7 @@ class Bootstrap implements BootstrapInterface
             ->andWhere(['is not', 'url', null])
             ->all();
         foreach ($models as $model) {
-            if($model->url == '/index'){
+            if ($model->url == '/index') {
                 $model->url = '/';
             }
             $rules[] = [
@@ -26,6 +26,8 @@ class Bootstrap implements BootstrapInterface
             ];
         }
 
-        $app->getUrlManager()->addRules($rules);
+        if (isset($rules)) {
+            $app->getUrlManager()->addRules($rules);
+        }
     }
 }

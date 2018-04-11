@@ -22,6 +22,6 @@ return [
         'password' => '123456',
         'port' => '465',
         'encryption' => 'ssl',
-    ]
-
+    ],
+    'emailFrom' => ['info@example.com' => 'Example Email'],
 ];

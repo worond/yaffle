@@ -132,7 +132,7 @@ class Page extends ActiveRecord
     public static function getPageTree($root = null)
     {
         $arrayPage = static::find()
-            ->select(['id', 'code', 'name', 'title','parent_id'])
+            ->select(['id', 'code', 'name', 'title', 'parent_id'])
             ->where(['parent_id' => $root])
             ->orderBy(['position' => SORT_ASC])
             ->asArray()
@@ -197,7 +197,8 @@ class Page extends ActiveRecord
             $this->url = '/' . $this->code;
         }
 
-        if (!$this->position || ($this->oldAttributes['parent_id'] != $this->parent_id)) {
+
+        if (!$this->position || (isset($this->oldAttributes['parent_id']) && $this->oldAttributes['parent_id'] != $this->parent_id)) {
             if ($this->isNewRecord) {
                 if ($this->parent_id) {
                     $max = Page::find()

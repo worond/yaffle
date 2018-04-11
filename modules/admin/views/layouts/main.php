@@ -75,10 +75,9 @@ AdminCustomAsset::register($this);
                             [
                                 'label' => 'Контент', 'icon' => 'fa fa-gg', 'url' => '#',
                                 'items' => [
+                                    ['label' => 'Слайдер', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/slider/slider/index']],
                                     ['label' => 'Услуги', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/service/service/index']],
                                     ['label' => 'Разделы услуг', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/service/service-category/index']],
-                                    ['label' => 'Отрасли', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/sector/sector/index']],
-                                    ['label' => 'Проекты', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/project/project/index']],
                                 ]
                             ],
                             [

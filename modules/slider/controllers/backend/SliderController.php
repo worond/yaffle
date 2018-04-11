@@ -1,61 +1,60 @@
 <?php
 
-namespace app\modules\page\controllers\backend;
+namespace app\modules\slider\controllers\backend;
 
+use app\modules\seo\models\Seo;
+use app\modules\file\models\File;
+use app\modules\slider\models\Slider;
+use app\modules\slider\models\backend\SliderSearch;
 use Yii;
 use yii\web\Controller;
-use yii\web\UploadedFile;
 use yii\web\NotFoundHttpException;
-use app\modules\seo\models\Seo;
-use app\modules\page\models\Page;
-use app\modules\file\models\File;
 
 
 /**
- * DefaultController implements the CRUD actions for Page model.
+ * SliderController implements the CRUD actions for Slider model.
  */
-class DefaultController extends Controller
+class SliderController extends Controller
 {
-
     /**
+     * Lists all Slider models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $pageTree = Page::getPageTree();
-        $defaultSeo = Seo::findOne(1);
-        if (!$defaultSeo) {
-            $defaultSeo = new Seo;
-        }
-
-        if ($defaultSeo->load(Yii::$app->request->post())) {
-            if ($defaultSeo->save()) {
-                Yii::$app->getSession()->setFlash('success', 'Метатеги успешно сохранены.');
-            } else {
-                Yii::$app->getSession()->setFlash('error', 'Не удалось сохранить метатеги.');
-            }
-            return $this->redirect(['index']);
-        }
+        $searchModel = new SliderSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'pageTree' => $pageTree,
-            'defaultSeo' => $defaultSeo
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Creates a new Page model.
+     * Displays a single Slider model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Creates a new Slider model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
         $post = Yii::$app->request->post();
-        $model = new Page;
-        $seo = new Seo;
+        $model = new Slider();
 
-        if ($model->load($post) && $seo->load($post)) {
-            if ($this->saveModels($model, $seo)) {
+        if ($model->load($post)) {
+            if ($this->saveModel($model)) {
                 if ($post['btn-save'] == 'stay') {
                     return $this->redirect(['update', 'id' => $model->id]);
                 } else {
@@ -66,12 +65,11 @@ class DefaultController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'seo' => $seo,
         ]);
     }
 
     /**
-     * Updates an existing Page model.
+     * Updates an existing Slider model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -80,12 +78,9 @@ class DefaultController extends Controller
     {
         $post = Yii::$app->request->post();
         $model = $this->findModel($id);
-        if (!$seo = Seo::findOne($model->seo_id)) {
-            $seo = new Seo();
-        }
 
-        if ($model->load($post) && $seo->load($post)) {
-            if ($this->saveModels($model, $seo)) {
+        if ($model->load($post)) {
+            if ($this->saveModel($model)) {
                 if ($post['btn-save'] == 'stay') {
                     return $this->redirect(['update', 'id' => $model->id]);
                 } else {
@@ -96,12 +91,11 @@ class DefaultController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'seo' => $seo,
         ]);
     }
 
     /**
-     * Deletes an existing Page model.
+     * Deletes an existing Slider model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -112,8 +106,8 @@ class DefaultController extends Controller
             if ($model->image) {
                 $model->image->delete();
             }
-            if ($model->seo) {
-                $model->seo->delete();
+            if ($model->icon) {
+                $model->icon->delete();
             }
             $model->delete();
         }
@@ -122,15 +116,15 @@ class DefaultController extends Controller
     }
 
     /**
-     * Finds the Page model based on its primary key value.
+     * Finds the Slider model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Page the loaded model
+     * @return Slider the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Page::findOne($id)) !== null) {
+        if (($model = Slider::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -138,20 +132,16 @@ class DefaultController extends Controller
     }
 
     /**
-     * Save models Page and Seo
-     * @param Page $model
-     * @param Seo $seo
+     * Save models Slider and Seo
+     * @param Slider $model
      * @return bool
      */
-    protected function saveModels(&$model, &$seo)
+    protected function saveModel(&$model)
     {
-        if ($model->validate() && $seo->validate()) {
-            if (!empty($seo->title) || !empty($seo->description) || !empty($seo->keywords)) {
-                $seo->save();
-                $model->seo_id = $seo->id;
-            }
+        if ($model->validate()) {
             if ($model->save()) {
                 $model->saveImage();
+                $model->saveImage(File::PATH_IMAGE, null, null, true, 'iconFile', 'icon_id');
                 return true;
             }
         }

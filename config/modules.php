@@ -48,20 +48,15 @@ return [
                 'controllerNamespace' => 'app\modules\service\controllers\backend',
                 'viewPath' => '@app/modules/service/views/backend',
             ],
-            'sector' => [
-                'class' => 'app\modules\sector\Module',
-                'controllerNamespace' => 'app\modules\sector\controllers\backend',
-                'viewPath' => '@app/modules/sector/views/backend',
-            ],
-            'project' => [
-                'class' => 'app\modules\project\Module',
-                'controllerNamespace' => 'app\modules\project\controllers\backend',
-                'viewPath' => '@app/modules/project/views/backend',
-            ],
             'user' => [
                 'class' => 'app\modules\user\Module',
                 'controllerNamespace' => 'app\modules\user\controllers\backend',
                 'viewPath' => '@app/modules/user/views/backend',
+            ],
+            'slider' => [
+                'class' => 'app\modules\slider\Module',
+                'controllerNamespace' => 'app\modules\slider\controllers\backend',
+                'viewPath' => '@app/modules/slider/views/backend',
             ],
         ]
     ],
