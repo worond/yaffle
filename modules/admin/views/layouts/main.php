@@ -88,7 +88,12 @@ AdminCustomAsset::register($this);
                                 'label' => 'Новости', 'icon' => 'fa fa-newspaper-o', 'url' => ['/admin/news/default/index']
                             ],
                             [
-                                'label' => 'Контакты', 'icon' => 'fa fa-bookmark', 'url' => ['/admin/contact/default/index'],
+                                'label' => 'Контакты', 'icon' => 'fa fa-bookmark', 'url' => '#',
+                                'items' => [
+                                    ['label' => 'Контакты', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/contact/contact/index']],
+                                    ['label' => 'Города', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/contact/city/index']],
+                                    ['label' => 'Регионы', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/contact/region/index']],
+                                ]
                             ],
                             [
                                 'label' => 'Заявки', 'icon' => 'fa fa-edit', 'url' => ['/admin/feedback/default/index'],

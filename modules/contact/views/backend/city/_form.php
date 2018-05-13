@@ -1,32 +1,26 @@
 <?php
 
 use app\modules\admin\components\FormHelper;
+use app\modules\contact\models\City;
+use app\modules\contact\models\Region;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\contact\models\Contact */
+/* @var $model app\modules\contact\models\City */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="contact-form">
+<div class="city-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?php //echo FormHelper::fieldImage($form, $model) ?>
+    <?=  $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
-    <?php //echo $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'region_id')->dropDownList(Region::getList()) ?>
 
-    <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'time')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->textarea() ?>
 
@@ -35,7 +29,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'external_link')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'position')->textInput() ?>
-
 
     <div class="form-group">
         <div class="btn-group pull-right">

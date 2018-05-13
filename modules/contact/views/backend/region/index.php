@@ -1,15 +1,16 @@
 <?php
 
 use app\modules\admin\components\GridHelper;
+use app\modules\contact\models\Region;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Breadcrumbs;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\contact\models\backend\ContactSearch */
+/* @var $searchModel app\modules\contact\models\backend\RegionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Контакты';
+$this->title = 'Регионы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <section class="content-header">
@@ -21,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <section class="content">
     <div class="box">
         <div class="box-header with-border">
-            <?= Html::a('Добавить контакт', ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Добавить регион', ['create'], ['class' => 'btn btn-success']) ?>
         </div>
         <div class="box-body">
             <div class="row">
@@ -31,15 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filterModel' => $searchModel,
                         'columns' => [
                             'id',
-                            //GridHelper::columnImage(),
-                            'city',
-                            'address',
-                            'phone',
-                            'email:email',
-                            'time',
-                            // 'description',
-                            // 'coordinates',
-                            'external_link',
+                            'name',
                             'position',
                             GridHelper::columnActive(),
 

@@ -3,24 +3,23 @@
 namespace app\modules\contact\controllers\backend;
 
 use Yii;
-use app\modules\contact\models\Contact;
-use app\modules\contact\models\backend\ContactSearch;
+use app\modules\contact\models\City;
+use app\modules\contact\models\backend\CitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
- * DefaultController implements the CRUD actions for Contact model.
+ * DefaultController implements the CRUD actions for City model.
  */
-class DefaultController extends Controller
+class CityController extends Controller
 {
     /**
-     * Lists all Contact models.
+     * Lists all City models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ContactSearch();
+        $searchModel = new CitySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -30,7 +29,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Displays a single Contact model.
+     * Displays a single City model.
      * @param integer $id
      * @return mixed
      */
@@ -42,16 +41,15 @@ class DefaultController extends Controller
     }
 
     /**
-     * Creates a new Contact model.
+     * Creates a new City model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Contact();
+        $model = new City();
         $post = Yii::$app->request->post();
         if ($model->load($post) && $model->save()) {
-            $model->saveImage();
             if (isset($post['btn-save']) && $post['btn-save'] == 'stay') {
                 return $this->redirect(['update', 'id' => $model->id]);
             } else {
@@ -65,7 +63,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Updates an existing Contact model.
+     * Updates an existing City model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -75,7 +73,6 @@ class DefaultController extends Controller
         $model = $this->findModel($id);
         $post = Yii::$app->request->post();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->saveImage();
             if (isset($post['btn-save']) && $post['btn-save'] == 'stay') {
                 return $this->redirect(['update', 'id' => $model->id]);
             } else {
@@ -89,7 +86,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Deletes an existing Contact model.
+     * Deletes an existing City model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -102,15 +99,15 @@ class DefaultController extends Controller
     }
 
     /**
-     * Finds the Contact model based on its primary key value.
+     * Finds the City model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Contact the loaded model
+     * @return City the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Contact::findOne($id)) !== null) {
+        if (($model = City::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

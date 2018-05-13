@@ -85,7 +85,7 @@ class Parameter extends ActiveRecord
 
     public function beforeSave($insert)
     {
-        $this->update = date('Y-m-d H:i:s');
+        //$this->update = date('Y-m-d H:i:s');
         if (empty($this->position)) {
             $position = self::find()->select('position')->max('position');
             $this->position = 1 + $position;
