@@ -81,6 +81,14 @@ AdminCustomAsset::register($this);
                                 ]
                             ],
                             [
+                                'label' => 'Каталог', 'icon' => 'fa fa-th', 'url' => '#',
+                                'items' => [
+                                    ['label' => 'Категории', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/catalog/catalog-category/index']],
+                                    ['label' => 'Бренды', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/catalog/catalog-brand/index']],
+                                    ['label' => 'Товары', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/catalog/catalog/index']],
+                                ]
+                            ],
+                            [
                                 'label' => 'Справочники', 'icon' => 'fa fa-cubes', 'url' => '#',
                                 'items' => Content::getContentTypeMenu(),
                             ],
@@ -106,8 +114,6 @@ AdminCustomAsset::register($this);
                                 'items' => [
                                     ['label' => 'Общие настройки', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/parameter/default/index']],
                                     ['label' => 'Сменить пароль', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/default/reset-password']],
-                                    ['label' => 'Типы контента', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/content/content-type/index']],
-                                    ['label' => 'Поля контента', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/content/content-field/index']],
                                 ]
                             ],
                         ],

@@ -26,18 +26,19 @@ trait GridHelper
      * @param string $attribute
      * @param string $relation
      * @param string $width
+     * @param string $alt
      * @return array
      */
-    public static function columnImage($attribute = 'image_id', $relation = 'image', $width = '50px')
+    public static function columnImage($attribute = 'image_id', $relation = 'image', $width = '50px', $alt = 'name')
     {
         return [
             'attribute' => $attribute,
             'filter' => false,
             'format' => 'raw',
-            'value' => function ($data) use ($relation, $width) {
+            'value' => function ($data) use ($relation, $width, $alt) {
                 if ($data->$relation)
                     return Html::img($data->$relation->src, [
-                        'alt' => $data->name,
+                        'alt' => $alt ? $data->$alt : '',
                         'style' => 'width:' . $width . ';'
                     ]);
                 return false;

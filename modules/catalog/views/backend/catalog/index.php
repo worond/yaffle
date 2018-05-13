@@ -1,16 +1,16 @@
 <?php
 
-use app\modules\admin\components\GridHelper;
-use app\modules\contact\models\City;
-use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\widgets\Breadcrumbs;
-
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\contact\models\backend\ContactSearch */
+/* @var $searchModel app\modules\catalog\models\backend\CatalogSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Контакты';
+use app\modules\admin\components\GridHelper;
+use app\modules\catalog\models\CatalogCategory;
+use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\widgets\Breadcrumbs;
+
+$this->title .= 'Новости';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <section class="content-header">
@@ -19,10 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
     ]) ?>
 </section>
-<section class="content">
+<div class="content">
     <div class="box">
         <div class="box-header with-border">
-            <?= Html::a('Добавить контакт', ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success pull-left']) ?>
         </div>
         <div class="box-body">
             <div class="row">
@@ -32,22 +32,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filterModel' => $searchModel,
                         'columns' => [
                             'id',
-                            GridHelper::columnImage('image_id', 'image', '100px', false),
-                            [
-                                'attribute' => 'city_id',
-                                'filter' => City::getList(),
-                                'value' => 'city.name',
-                            ],
-                            'address',
-                            'phone',
-                            'email:email',
-                            //'time',
-                            // 'description',
-                            // 'coordinates',
-                            //'external_link',
-                            'position',
+                            GridHelper::columnImage(),
+                            /*[
+                                'attribute' => 'category_id',
+                                'filter' => CatalogCategory::getList(),
+                                'value' => 'category.name',
+                            ],*/
+                            'name',
+                            'annotation',
+                            'created:date',
                             GridHelper::columnActive(),
-
                             ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {delete}'],
                         ],
                     ]); ?>
@@ -55,4 +49,5 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-</section>
+</div>
+

@@ -58,6 +58,12 @@ return [
                 'controllerNamespace' => 'app\modules\slider\controllers\backend',
                 'viewPath' => '@app/modules/slider/views/backend',
             ],
+            'catalog' => [
+                'class' => 'app\modules\catalog\Module',
+                'controllerNamespace' => 'app\modules\catalog\controllers\backend',
+                'viewPath' => '@app/modules/catalog/views/backend',
+            ],
+
         ]
     ],
     'page' => [

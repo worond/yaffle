@@ -5,7 +5,6 @@ namespace app\modules\admin\components;
 trait AdminHelper
 {
     /**
-     * @param $modelClass
      * @return array
      * @internal param $model
      */
@@ -15,7 +14,6 @@ trait AdminHelper
     }
 
     /**
-     * @param $modelClass
      * @param integer|null $root
      * @param string $indent
      * @return array
