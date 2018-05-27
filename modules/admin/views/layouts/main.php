@@ -1,7 +1,8 @@
 <?php
 
 /* @var $this \yii\web\View
- * @var $content string */
+ * @var $content string
+ */
 
 use app\modules\content\models\Content;
 use yii\helpers\Html;
@@ -47,7 +48,7 @@ AdminCustomAsset::register($this);
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="<?= Url::toRoute(['/admin/default/logout']); ?>" title="Выход"><i
-                                  class="fa fa-sign-out"></i></a>
+                                        class="fa fa-sign-out"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -84,7 +85,7 @@ AdminCustomAsset::register($this);
                                 'label' => 'Каталог', 'icon' => 'fa fa-th', 'url' => '#',
                                 'items' => [
                                     ['label' => 'Категории', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/catalog/catalog-category/index']],
-                                    ['label' => 'Бренды', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/catalog/catalog-brand/index']],
+                                    ['label' => 'Свойства', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/catalog/catalog-property-type/index']],
                                     ['label' => 'Товары', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/catalog/catalog/index']],
                                 ]
                             ],
@@ -130,7 +131,7 @@ AdminCustomAsset::register($this);
         </div>
 
         <footer class="main-footer">
-            <strong><?= Yii::$app->params['applicationName'];?> <?= date('Y'); ?>.</strong>
+            <strong><?= Yii::$app->params['applicationName']; ?> <?= date('Y'); ?>.</strong>
         </footer>
 
         <div class="control-sidebar-bg"></div>

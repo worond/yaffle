@@ -30,6 +30,7 @@ use yii\db\ActiveRecord;
  * @property integer $active
  * @property string $created
  *
+ * @property CatalogPropertyValue $values
  * @property CatalogCategory $category
  * @property File $image
  * @property Seo $seo
@@ -115,8 +116,9 @@ class Catalog extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBrand()
+    public function getValues()
     {
-        return $this->hasOne(CatalogBrand::className(), ['id' => 'brand_id']);
+        return $this->hasMany(CatalogPropertyValue::className(), ['id' => 'value_id'])
+            ->viaTable('catalog_property', ['catalog_id' => 'id']);
     }
 }

@@ -19,6 +19,7 @@ class m180513_085811_create_catalog_table extends Migration
             'seo_id' => $this->integer(),
             'code' => $this->string()->notNull(),
             'name' => $this->string()->notNull(),
+            'description' => $this->text(),
             'active' => $this->integer()->defaultValue(1),
             'position' => $this->integer()->defaultValue(0),
         ]);
@@ -32,25 +33,10 @@ class m180513_085811_create_catalog_table extends Migration
         $this->addForeignKey('fk-catalog_category-parent', '{{%catalog_category}}', 'parent_id', '{{%catalog_category}}', 'id', 'SET NULL', 'RESTRICT');
         $this->addForeignKey('fk-catalog_category-seo', '{{%catalog_category}}', 'seo_id', '{{%seo}}', 'id', 'SET NULL', 'RESTRICT');
 
-        $this->createTable('{{%catalog_brand}}', [
-            'id' => $this->primaryKey(),
-            'image_id' => $this->integer(),
-            'code' => $this->string()->notNull(),
-            'name' => $this->string()->notNull(),
-            'active' => $this->integer()->defaultValue(1),
-            'position' => $this->integer()->defaultValue(0),
-        ]);
-
-        $this->createIndex('idx-catalog_brand-code', '{{%catalog_brand}}', 'code');
-        $this->createIndex('idx-catalog_brand-active', '{{%catalog_brand}}', 'active');
-        $this->createIndex('idx-catalog_brand-image_id', '{{%catalog_brand}}', 'image_id');
-        $this->addForeignKey('fk-catalog_brand-image', '{{%catalog_brand}}', 'image_id', '{{%file}}', 'id', 'SET NULL', 'RESTRICT');
-        
         $this->createTable('{{%catalog}}', [
             'id' => $this->primaryKey(),
             'category_id' => $this->integer(),
             'image_id' => $this->integer(),
-            'brand_id' => $this->integer(),
             'type_id' => $this->integer(),
             'seo_id' => $this->integer(),
             'code' => $this->string()->notNull(),
@@ -70,14 +56,12 @@ class m180513_085811_create_catalog_table extends Migration
 
         $this->createIndex('idx-catalog-category_id', '{{%catalog}}', 'category_id');
         $this->createIndex('idx-catalog-image_id', '{{%catalog}}', 'image_id');
-        $this->createIndex('idx-catalog-brand_id', '{{%catalog}}', 'brand_id');
         $this->createIndex('idx-catalog-type_id', '{{%catalog}}', 'type_id');
         $this->createIndex('idx-catalog-seo_id', '{{%catalog}}', 'seo_id');
         $this->createIndex('idx-catalog-code', '{{%catalog}}', 'code');
         $this->createIndex('idx-catalog-active', '{{%catalog}}', 'active');
         $this->addForeignKey('fk-catalog-category', '{{%catalog}}', 'category_id', '{{%catalog_category}}', 'id', 'SET NULL', 'RESTRICT');
         $this->addForeignKey('fk-catalog-image', '{{%catalog}}', 'image_id', '{{%file}}', 'id', 'SET NULL', 'RESTRICT');
-        $this->addForeignKey('fk-catalog-brand', '{{%catalog}}', 'brand_id', '{{%catalog_brand}}', 'id', 'SET NULL', 'RESTRICT');
         $this->addForeignKey('fk-catalog-type', '{{%catalog}}', 'type_id', '{{%content}}', 'id', 'SET NULL', 'RESTRICT');
         $this->addForeignKey('fk-catalog-seo', '{{%catalog}}', 'seo_id', '{{%seo}}', 'id', 'SET NULL', 'RESTRICT');
 
@@ -112,7 +96,6 @@ class m180513_085811_create_catalog_table extends Migration
         $this->dropTable('{{%catalog_file}}');
         $this->dropTable('{{%catalog_image}}');
         $this->dropTable('{{%catalog}}');
-        $this->dropTable('{{%catalog_brand}}');
         $this->dropTable('{{%catalog_category}}');
     }
 }
