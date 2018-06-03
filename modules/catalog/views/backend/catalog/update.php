@@ -4,11 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\news\models\News */
+/* @var $image app\modules\catalog\models\CatalogImage */
+/* @var $model app\modules\catalog\models\Catalog */
 /* @var $seo app\modules\seo\models\Seo */
 
-$this->title = 'Изменение новости: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['index']];
+$this->title = 'Товар: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 ?>
 <section class="content-header">
@@ -20,6 +21,7 @@ $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id
 <div class="content">
     <?= $this->render('_form', [
         'model' => $model,
+        'image' => $image,
         'seo' => $seo,
     ]) ?>
 </div>

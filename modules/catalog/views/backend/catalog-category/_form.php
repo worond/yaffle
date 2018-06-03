@@ -34,6 +34,8 @@ use yii\widgets\ActiveForm;
 
                 <?= FormHelper::fieldImage($form, $model); ?>
 
+                <?= $form->field($model, 'description')->textarea(['rows' => 6, 'class' => 'ckeditor-custom']) ?>
+
             </div>
         </div>
     </div>

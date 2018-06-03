@@ -2,6 +2,7 @@
 
 namespace app\modules\catalog\controllers\backend;
 
+use app\modules\catalog\models\CatalogImage;
 use app\modules\file\models\File;
 use Yii;
 use yii\web\Controller;
@@ -38,12 +39,13 @@ class CatalogController extends Controller
      */
     public function actionCreate()
     {
+        $post = Yii::$app->request->post();
         $model = new Catalog();
         $seo = new Seo;
-        $post = Yii::$app->request->post();
+        $image = new CatalogImage();
 
         if ($model->load($post) && $seo->load($post)) {
-            if ($this->saveModels($model, $seo)) {
+            if ($this->saveModels($model, $seo, $image)) {
                 if ($post['btn-save'] == 'stay') {
                     return $this->redirect(['update', 'id' => $model->id]);
                 } else {
@@ -54,6 +56,7 @@ class CatalogController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'image' => $image,
             'seo' => $seo,
         ]);
     }
@@ -66,14 +69,15 @@ class CatalogController extends Controller
      */
     public function actionUpdate($id)
     {
+        $post = Yii::$app->request->post();
         $model = $this->findModel($id);
         if (!$seo = Seo::findOne($model->seo_id)) {
             $seo = new Seo();
         }
-        $post = Yii::$app->request->post();
+        $image = new CatalogImage();
 
         if ($model->load($post) && $seo->load($post)) {
-            if ($this->saveModels($model, $seo)) {
+            if ($this->saveModels($model, $seo, $image)) {
                 if ($post['btn-save'] == 'stay') {
                     return $this->redirect(['update', 'id' => $model->id]);
                 } else {
@@ -84,6 +88,7 @@ class CatalogController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'image' => $image,
             'seo' => $seo,
         ]);
     }
@@ -126,9 +131,10 @@ class CatalogController extends Controller
      * Save models catalog and Seo
      * @param catalog $model
      * @param Seo $seo
+     * @param CatalogImage $image
      * @return bool
      */
-    protected function saveModels(&$model, &$seo)
+    protected function saveModels(&$model, &$seo, &$image)
     {
         if ($model->validate() && $seo->validate()) {
             if (!empty($seo->title) || !empty($seo->description) || !empty($seo->keywords)) {
@@ -136,7 +142,8 @@ class CatalogController extends Controller
                 $model->seo_id = $seo->id;
             }
             if ($model->save()) {
-                $model->saveImage(File::PATH_catalog);
+                $model->saveImage(File::PATH_PRODUCT);
+                $model->saveManyImages($image, $model->id);
                 return true;
             }
         }

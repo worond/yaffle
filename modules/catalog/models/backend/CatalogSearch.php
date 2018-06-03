@@ -17,8 +17,8 @@ class CatalogSearch extends Catalog
     public function rules()
     {
         return [
-            [['id', 'user_id', 'category_id', 'image_id', 'seo_id', 'active'], 'integer'],
-            [['code', 'name', 'title', 'annotation', 'description', 'author', 'external_link', 'created'], 'safe'],
+            [['id', 'category_id', 'image_id', 'seo_id', 'type_id', 'active'], 'integer'],
+            [['code', 'name', 'title', 'annotation', 'description', 'article', 'created_at'], 'safe'],
         ];
     }
 
@@ -46,7 +46,7 @@ class CatalogSearch extends Catalog
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['created' => SORT_DESC]],
+            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -60,12 +60,12 @@ class CatalogSearch extends Catalog
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'type_id' => $this->type_id,
             'category_id' => $this->category_id,
             'image_id' => $this->image_id,
             'seo_id' => $this->seo_id,
             'active' => $this->active,
-            'created' => $this->created,
+            'created_at' => $this->created_at,
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])
@@ -73,8 +73,7 @@ class CatalogSearch extends Catalog
             ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'annotation', $this->annotation])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'author', $this->author])
-            ->andFilterWhere(['like', 'external_link', $this->external_link]);
+            ->andFilterWhere(['like', 'article', $this->article]);
 
         return $dataProvider;
     }

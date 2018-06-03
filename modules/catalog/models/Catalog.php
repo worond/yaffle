@@ -6,7 +6,9 @@ use app\modules\admin\components\ImageHelper;
 use app\modules\file\models\File;
 use app\modules\seo\models\Seo;
 use app\modules\user\models\User;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%catalog}}".
@@ -28,17 +30,31 @@ use yii\db\ActiveRecord;
  * @property string $packaging
  * @property float $price
  * @property integer $active
- * @property string $created
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property CatalogPropertyValue $values
  * @property CatalogCategory $category
  * @property File $image
+ * @property File[] $images
  * @property Seo $seo
  */
 class Catalog extends ActiveRecord
 {
     use ImageHelper;
     public $imageFile;
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -54,7 +70,7 @@ class Catalog extends ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'brand_id', 'type_id', 'image_id', 'seo_id', 'active'], 'integer'],
+            [['category_id', 'type_id', 'image_id', 'seo_id', 'active'], 'integer'],
             [['code', 'name'], 'required'],
             [['annotation', 'description'], 'string'],
             [['created_at', 'updated_at', 'price'], 'safe'],
@@ -73,8 +89,8 @@ class Catalog extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'Пользователь',
             'category_id' => 'Категория',
+            'type_id' => 'Тип',
             'image_id' => 'Изображение',
             'seo_id' => 'СЕО',
             'code' => 'Псевдоним',
@@ -82,10 +98,14 @@ class Catalog extends ActiveRecord
             'title' => 'Заголовок',
             'annotation' => 'Аннотация',
             'description' => 'Контент',
-            'author' => 'Автор',
-            'external_link' => 'Ссылка',
+            'article' => 'Артикул',
+            'grade' => 'Класс',
+            'viscosity_grade' => 'Класс взякости',
+            'packaging' => 'Фасовка',
+            'price' => 'Цена',
             'active' => 'Активность',
-            'created' => 'Дата создания',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата обновления',
         ];
     }
 
@@ -103,6 +123,15 @@ class Catalog extends ActiveRecord
     public function getImage()
     {
         return $this->hasOne(File::className(), ['id' => 'image_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImages()
+    {
+        return $this->hasMany(File::className(), ['id' => 'file_id'])
+            ->viaTable('{{%catalog_image}}', ['catalog_id' => 'id']);
     }
 
     /**

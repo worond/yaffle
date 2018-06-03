@@ -10,7 +10,7 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
-$this->title .= 'Новости';
+$this->title .= 'Каталог';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <section class="content-header">
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="content">
     <div class="box">
         <div class="box-header with-border">
-            <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success pull-left']) ?>
+            <?= Html::a('Добавить товар', ['create'], ['class' => 'btn btn-success pull-left']) ?>
         </div>
         <div class="box-body">
             <div class="row">
@@ -33,14 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         'columns' => [
                             'id',
                             GridHelper::columnImage(),
-                            /*[
+                            [
                                 'attribute' => 'category_id',
-                                'filter' => CatalogCategory::getList(),
+                                'filter' => CatalogCategory::getTree(),
                                 'value' => 'category.name',
-                            ],*/
+                            ],
                             'name',
                             'annotation',
-                            'created:date',
+                            'created_at:date',
                             GridHelper::columnActive(),
                             ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {delete}'],
                         ],

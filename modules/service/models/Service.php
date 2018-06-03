@@ -149,7 +149,8 @@ class Service extends ActiveRecord
      */
     public function getFiles()
     {
-        return $this->hasMany(File::className(), ['id' => 'file_id'])->viaTable('{{%service_image}}', ['service_id' => 'id']);
+        return $this->hasMany(File::className(), ['id' => 'file_id'])
+            ->viaTable('{{%service_image}}', ['service_id' => 'id']);
     }
 
     /**

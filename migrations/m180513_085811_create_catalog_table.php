@@ -50,7 +50,7 @@ class m180513_085811_create_catalog_table extends Migration
             'packaging' => $this->string(),
             'price' => $this->decimal(),
             'active' => $this->boolean()->defaultValue(1),
-            'created_at' => $this->timestamp(),
+            'created_at' => $this->timestamp()->defaultValue(null),
             'updated_at' => $this->timestamp()->defaultValue(null),
         ]);
 
