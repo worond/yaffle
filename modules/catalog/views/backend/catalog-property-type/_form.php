@@ -1,9 +1,6 @@
 <?php
 
 use app\modules\admin\components\FormHelper;
-use app\modules\catalog\models\CatalogPropertyType;
-use app\modules\news\models\NewsPropertyType;
-use yii\jui\DatePicker;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */

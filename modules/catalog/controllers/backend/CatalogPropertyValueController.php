@@ -14,7 +14,6 @@ use app\modules\catalog\models\backend\CatalogPropertyValueSearch;
  */
 class CatalogPropertyValueController extends Controller
 {
-
     /**
      * @return mixed
      */
@@ -38,13 +37,15 @@ class CatalogPropertyValueController extends Controller
     {
         $model = new CatalogPropertyValue();
         $post = Yii::$app->request->post();
+        $type_id = Yii::$app->request->get('CatalogPropertyValueSearch')['type_id'];
 
         if ($model->load($post)) {
             if ($model->validate() && $model->save()) {
                 if ($post['btn-save'] == 'stay') {
-                    return $this->redirect(['update', 'id' => $model->id]);
+                    //return $this->redirect(['update', 'id' => $model->id]);
+                    return $this->redirect([CatalogPropertyValue::UPDATE . $type_id . '&id=' . $model->id]);
                 } else {
-                    return $this->redirect(['index']);
+                    return $this->redirect([CatalogPropertyValue::INDEX . $type_id]);
                 }
             }
         }
@@ -64,13 +65,14 @@ class CatalogPropertyValueController extends Controller
     {
         $model = $this->findModel($id);
         $post = Yii::$app->request->post();
+        $type_id = Yii::$app->request->get('CatalogPropertyValueSearch')['type_id'];
 
         if ($model->load($post)) {
             if ($model->validate() && $model->save()) {
                 if ($post['btn-save'] == 'stay') {
-                    return $this->redirect(['update', 'id' => $model->id]);
+                    return $this->redirect([CatalogPropertyValue::UPDATE . $type_id . '&id=' . $model->id]);
                 } else {
-                    return $this->redirect(['index']);
+                    return $this->redirect([CatalogPropertyValue::INDEX . $type_id]);
                 }
             }
         }
@@ -84,15 +86,16 @@ class CatalogPropertyValueController extends Controller
      * Deletes an existing Page model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
+     * @param integer $type_id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $type_id)
     {
         if ($model = $this->findModel($id)) {
             $model->delete();
         }
 
-        return $this->redirect(['index']);
+        return $this->redirect([CatalogPropertyValue::INDEX . $type_id]);
     }
 
     /**

@@ -64,4 +64,26 @@ class CatalogPropertyType extends ActiveRecord
     {
         return $this->hasMany(CatalogPropertyValue::className(), ['type_id' => 'id']);
     }
+
+    public static function getGroupProperties($on_filter = true)
+    {
+        $query = self::find();
+        if ($on_filter) {
+            $query->where(['on_filter' => 1]);
+        }
+        /** @var CatalogPropertyType[] $types */
+        $types = $query->with('values')->orderBy('position')->all();
+
+        if ($types) {
+            $properties = [];
+            foreach ($types as $type) {
+                $properties[$type->id]['name'] = $type->name;
+                foreach ($type->values as $value) {
+                    $properties[$type->id]['values'][$value->id] = $value->value;
+                }
+            }
+            return $properties;
+        }
+        return null;
+    }
 }

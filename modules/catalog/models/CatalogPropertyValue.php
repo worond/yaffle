@@ -10,6 +10,7 @@ use yii\db\ActiveRecord;
  * This is the model class for table "{{%catalog_property_value}}".
  *
  * @property integer $id
+ * @property integer $type_id
  * @property string $value
  * @property integer $on_filter
  * @property integer $active
@@ -21,6 +22,11 @@ use yii\db\ActiveRecord;
 class CatalogPropertyValue extends ActiveRecord
 {
     use AdminHelper;
+
+    const CREATE = '/admin/catalog/catalog-property-value/create?CatalogPropertyValueSearch[type_id]=';
+    const UPDATE = '/admin/catalog/catalog-property-value/update?CatalogPropertyValueSearch[type_id]=';
+    const INDEX = '/admin/catalog/catalog-property-value/index?CatalogPropertyValueSearch[type_id]=';
+    const DELETE = '/admin/catalog/catalog-property-value/delete?CatalogPropertyValueSearch[type_id]=';
 
     /**
      * @inheritdoc
@@ -36,9 +42,9 @@ class CatalogPropertyValue extends ActiveRecord
     public function rules()
     {
         return [
-            [['on_filter', 'active', 'position'], 'integer'],
-            [['code', 'name'], 'required'],
-            [['code', 'name'], 'string', 'max' => 255]
+            [['on_filter', 'active', 'position', 'type_id'], 'integer'],
+            [['value'], 'required'],
+            [['value'], 'string', 'max' => 255]
         ];
     }
 

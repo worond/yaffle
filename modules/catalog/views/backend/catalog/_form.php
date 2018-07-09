@@ -2,6 +2,7 @@
 
 use app\modules\admin\components\FormHelper;
 use app\modules\catalog\models\CatalogCategory;
+use app\modules\catalog\models\CatalogPropertyType;
 use yii\jui\DatePicker;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -10,6 +11,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $image app\modules\catalog\models\CatalogImage */
+/* @var $catalogProperty app\modules\catalog\models\CatalogProperty */
 /* @var $model app\modules\catalog\models\Catalog */
 /* @var $seo app\modules\seo\models\Seo */
 
@@ -42,18 +44,15 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="col-md-12">
-            <div class="panel box box-primary">
-                <div class="box-header">
-                    <h3 class="box-title">СЕО-атрибуты</h3>
-                </div>
+            <div class="panel box box-widget">
                 <div class="box-body">
+                    <div class="box-tools pull-right">
+                        <div class="btn-group">
 
-                    <?= $form->field($seo, 'title'); ?>
+                            <?= FormHelper::buttonSave(); ?>
 
-                    <?= $form->field($seo, 'description'); ?>
-
-                    <?= $form->field($seo, 'keywords'); ?>
-
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,6 +97,11 @@ use yii\widgets\ActiveForm;
 
                     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
+                    <?php if ($properties = CatalogPropertyType::getGroupProperties()): ?>
+                        <?php foreach ($properties as $property): ?>
+                            <?= $form->field($catalogProperty, 'value_id[]')->dropDownList($property['values'])->label($property['name']); ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -128,17 +132,19 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
         </div>
-
         <div class="col-md-12">
-            <div class="panel box box-widget">
+            <div class="panel box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">СЕО-атрибуты</h3>
+                </div>
                 <div class="box-body">
-                    <div class="box-tools pull-right">
-                        <div class="btn-group">
 
-                            <?= FormHelper::buttonSave(); ?>
+                    <?= $form->field($seo, 'title'); ?>
 
-                        </div>
-                    </div>
+                    <?= $form->field($seo, 'description'); ?>
+
+                    <?= $form->field($seo, 'keywords'); ?>
+
                 </div>
             </div>
         </div>

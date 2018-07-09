@@ -64,6 +64,12 @@ class CatalogPropertyValueSearch extends CatalogPropertyValue
             'active' => $this->active,
         ]);
 
+        if(isset($params['CatalogPropertyValueSearch'])){
+            $query->andFilterWhere([
+                'type_id' => $params['CatalogPropertyValueSearch']['type_id'],
+            ]);
+        }
+
         $query->andFilterWhere(['like', 'name', $this->value]);
 
         return $dataProvider;

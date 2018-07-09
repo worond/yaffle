@@ -7,7 +7,7 @@ use yii\widgets\Breadcrumbs;
 /* @var $model app\modules\catalog\models\CatalogPropertyValue */
 
 $this->title = 'Добавить значение';
-$this->params['breadcrumbs'][] = ['label' => 'Свойства', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Свойства', 'url' => ['/admin/catalog/catalog-property-type/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <section class="content-header">

@@ -3,6 +3,8 @@
 namespace app\modules\catalog\controllers\backend;
 
 use app\modules\catalog\models\CatalogImage;
+use app\modules\catalog\models\CatalogProperty;
+use app\modules\catalog\models\CatalogPropertyType;
 use app\modules\file\models\File;
 use Yii;
 use yii\web\Controller;
@@ -43,6 +45,7 @@ class CatalogController extends Controller
         $model = new Catalog();
         $seo = new Seo;
         $image = new CatalogImage();
+        $catalogProperty = new CatalogProperty();
 
         if ($model->load($post) && $seo->load($post)) {
             if ($this->saveModels($model, $seo, $image)) {
@@ -75,6 +78,7 @@ class CatalogController extends Controller
             $seo = new Seo();
         }
         $image = new CatalogImage();
+        $catalogProperty = new CatalogProperty();
 
         if ($model->load($post) && $seo->load($post)) {
             if ($this->saveModels($model, $seo, $image)) {
@@ -89,6 +93,7 @@ class CatalogController extends Controller
         return $this->render('update', [
             'model' => $model,
             'image' => $image,
+            'catalogProperty' => $catalogProperty,
             'seo' => $seo,
         ]);
     }

@@ -1,14 +1,13 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\catalog\models\backend\CatalogPropertyTypeSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
-use app\modules\admin\components\GridHelper;
-use app\modules\catalog\models\CatalogCategory;
+use app\modules\catalog\models\CatalogPropertyValue;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
+
+/* @var $this yii\web\View */
+/* @var $searchModel app\modules\catalog\models\backend\CatalogPropertyTypeSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title .= 'Свойства';
 $this->params['breadcrumbs'][] = $this->title;
@@ -48,12 +47,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'filter' => false,
                             ],
                             ['class' => 'yii\grid\ActionColumn',
-                                'template' => '{view}&nbsp;&nbsp;{update}&nbsp;&nbsp;{delete}',
+                                'template' => '{view} {update} {delete}',
                                 'buttons' => [
                                     'view' => function ($url, $model) {
                                         return Html::a(
                                             '<span class="glyphicon glyphicon-th-list"></span>',
-                                            '/admin/catalog/catalog-property-value/index?CatalogPropertyValueSearch[type_id]=' . $model->id,
+                                            CatalogPropertyValue::INDEX . $model->id,
                                             ['title' => 'Значения']
                                         );
 
