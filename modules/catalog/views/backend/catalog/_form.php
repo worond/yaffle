@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $image app\modules\catalog\models\CatalogImage */
+/* @var $uploadFile app\modules\catalog\models\CatalogFile */
 /* @var $catalogProperty app\modules\catalog\models\CatalogProperty */
 /* @var $model app\modules\catalog\models\Catalog */
 /* @var $seo app\modules\seo\models\Seo */
@@ -44,21 +45,6 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="col-md-12">
-            <div class="panel box box-widget">
-                <div class="box-body">
-                    <div class="box-tools pull-right">
-                        <div class="btn-group">
-
-                            <?= FormHelper::buttonSave(); ?>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="col-md-12">
             <div class="panel box box-primary">
                 <div class="box-header">
                     <h3 class="box-title">Техническая информация</h3>
@@ -80,6 +66,8 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-md-6">
         <div class="col-md-12">
             <div class="panel box box-primary">
                 <div class="box-header">
@@ -97,9 +85,11 @@ use yii\widgets\ActiveForm;
 
                     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
-                    <?php if ($properties = CatalogPropertyType::getGroupProperties()): ?>
-                        <?php foreach ($properties as $property): ?>
-                            <?= $form->field($catalogProperty, 'value_id[]')->dropDownList($property['values'])->label($property['name']); ?>
+                    <?php if ($properties = $model->dropDownLists): ?>
+                        <?php foreach ($properties as $type_id => $property): ?>
+                            <?= $form->field($property, '['.$type_id.']value')
+                                ->dropDownList($property['values'], ['prompt' => 'Выберите значение...'])
+                                ->label($property['label']); ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
@@ -133,6 +123,38 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Файлы</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body" style="display: block;">
+                    <div class="row">
+                        <?php foreach ($model->files as $file): ?>
+                            <div class="col-xs-10">
+                                <?= Html::a($file->title, [$file->src], [
+                                    'class' => 'no',
+                                    'download' => 'download'
+                                ]) ?>
+                            </div>
+                            <div class="col-xs-2">
+                                <?= Html::a('<i class="fa fa-times"></i>', ['/admin/file/default/delete', 'id' => $file->id, 'redirect' => Url::current()], [
+                                    'class' => 'pull-right',
+                                    'title' => 'Удалить',
+                                    'data' => ['confirm' => 'Вы уверены, что хотите удалить файл?', 'method' => 'post',],
+                                ]) ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?= $form->field($uploadFile, 'uploadFile[]')->fileInput(['multiple' => true])->label('Добавить файл'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
             <div class="panel box box-primary">
                 <div class="box-header">
                     <h3 class="box-title">СЕО-атрибуты</h3>
@@ -145,6 +167,19 @@ use yii\widgets\ActiveForm;
 
                     <?= $form->field($seo, 'keywords'); ?>
 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel box box-widget">
+                <div class="box-body">
+                    <div class="box-tools pull-right">
+                        <div class="btn-group">
+
+                            <?= FormHelper::buttonSave(); ?>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

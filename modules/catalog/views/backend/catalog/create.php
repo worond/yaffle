@@ -6,6 +6,7 @@ use yii\widgets\Breadcrumbs;
 /* @var $this yii\web\View */
 /* @var $model app\modules\catalog\models\Catalog */
 /* @var $image app\modules\catalog\models\CatalogImage */
+/* @var $uploadFile app\modules\catalog\models\CatalogFile */
 /* @var $seo app\modules\seo\models\Seo */
 
 $this->title = 'Добавить товар';
@@ -22,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
         'image' => $image,
+        'uploadFile' => $uploadFile,
         'seo' => $seo,
     ]) ?>
 </div>

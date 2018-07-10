@@ -5,7 +5,7 @@ use yii\widgets\Breadcrumbs;
 
 /* @var $this yii\web\View */
 /* @var $image app\modules\catalog\models\CatalogImage */
-/* @var $catalogProperty app\modules\catalog\models\CatalogProperty */
+/* @var $uploadFile app\modules\catalog\models\CatalogFile */
 /* @var $model app\modules\catalog\models\Catalog */
 /* @var $seo app\modules\seo\models\Seo */
 
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id
     <?= $this->render('_form', [
         'model' => $model,
         'image' => $image,
-        'catalogProperty' => $catalogProperty,
+        'uploadFile' => $uploadFile,
         'seo' => $seo,
     ]) ?>
 </div>

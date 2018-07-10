@@ -33,10 +33,12 @@ use yii\db\Expression;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property CatalogPropertyValue $values
+ * @property CatalogPropertyValue $properties
+ * @property CatalogProperty[] $dropDownLists
  * @property CatalogCategory $category
  * @property File $image
  * @property File[] $images
+ * @property File[] $files
  * @property Seo $seo
  */
 class Catalog extends ActiveRecord
@@ -137,6 +139,15 @@ class Catalog extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getFiles()
+    {
+        return $this->hasMany(File::className(), ['id' => 'file_id'])
+            ->viaTable('{{%catalog_file}}', ['catalog_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getSeo()
     {
         return $this->hasOne(Seo::className(), ['id' => 'seo_id']);
@@ -145,9 +156,41 @@ class Catalog extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getValues()
+    public function getProperties()
     {
         return $this->hasMany(CatalogPropertyValue::className(), ['id' => 'value_id'])
-            ->viaTable('catalog_property', ['catalog_id' => 'id']);
+            ->viaTable('{{%catalog_property}}', ['catalog_id' => 'id']);
+    }
+
+    public function getDropDownLists()
+    {
+        $dropDownLists = [];
+        $catalogTypes = CatalogPropertyType::getGroupProperties();
+
+        /** @var CatalogProperty[] $catalogPropertyRelations */
+        $catalogPropertyRelations = CatalogProperty::find()
+            ->where(['=', 'catalog_id', $this->id])
+            ->with('value')
+            ->all();
+
+        foreach ($catalogTypes as $catalogTypeId => $catalogType) {
+            foreach ($catalogPropertyRelations as $relation){
+                if($catalogTypeId === $relation->value->type_id){
+                    $relation->values = $catalogType['values'];
+                    $relation->label = $catalogType['name'];
+                    $dropDownLists[$catalogTypeId] = $relation;
+                    break;
+                }
+            }
+
+            if(!isset($dropDownLists[$catalogTypeId])){
+                $relation = new CatalogProperty();
+                $relation->values = $catalogType['values'];
+                $relation->label = $catalogType['name'];
+                $dropDownLists[$catalogTypeId] = $relation;
+            }
+        }
+
+        return $dropDownLists;
     }
 }

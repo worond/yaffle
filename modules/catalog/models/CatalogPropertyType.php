@@ -65,6 +65,10 @@ class CatalogPropertyType extends ActiveRecord
         return $this->hasMany(CatalogPropertyValue::className(), ['type_id' => 'id']);
     }
 
+    /**
+     * @param bool $on_filter
+     * @return array|null
+     */
     public static function getGroupProperties($on_filter = true)
     {
         $query = self::find();

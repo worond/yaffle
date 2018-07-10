@@ -2,9 +2,9 @@
 
 namespace app\modules\catalog\controllers\backend;
 
+use app\modules\catalog\models\CatalogFile;
 use app\modules\catalog\models\CatalogImage;
 use app\modules\catalog\models\CatalogProperty;
-use app\modules\catalog\models\CatalogPropertyType;
 use app\modules\file\models\File;
 use Yii;
 use yii\web\Controller;
@@ -25,7 +25,7 @@ class CatalogController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel  = new CatalogSearch();
+        $searchModel = new CatalogSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,10 +45,10 @@ class CatalogController extends Controller
         $model = new Catalog();
         $seo = new Seo;
         $image = new CatalogImage();
-        $catalogProperty = new CatalogProperty();
+        $uploadFile = new CatalogFile();
 
         if ($model->load($post) && $seo->load($post)) {
-            if ($this->saveModels($model, $seo, $image)) {
+            if ($this->saveModels($model, $seo, $image, $uploadFile, $post['CatalogProperty'])) {
                 if ($post['btn-save'] == 'stay') {
                     return $this->redirect(['update', 'id' => $model->id]);
                 } else {
@@ -60,6 +60,7 @@ class CatalogController extends Controller
         return $this->render('create', [
             'model' => $model,
             'image' => $image,
+            'uploadFile' => $uploadFile,
             'seo' => $seo,
         ]);
     }
@@ -74,14 +75,16 @@ class CatalogController extends Controller
     {
         $post = Yii::$app->request->post();
         $model = $this->findModel($id);
+
         if (!$seo = Seo::findOne($model->seo_id)) {
             $seo = new Seo();
         }
+
         $image = new CatalogImage();
-        $catalogProperty = new CatalogProperty();
+        $uploadFile = new CatalogFile();
 
         if ($model->load($post) && $seo->load($post)) {
-            if ($this->saveModels($model, $seo, $image)) {
+            if ($this->saveModels($model, $seo, $image, $uploadFile, $post['CatalogProperty'])) {
                 if ($post['btn-save'] == 'stay') {
                     return $this->redirect(['update', 'id' => $model->id]);
                 } else {
@@ -93,7 +96,7 @@ class CatalogController extends Controller
         return $this->render('update', [
             'model' => $model,
             'image' => $image,
-            'catalogProperty' => $catalogProperty,
+            'uploadFile' => $uploadFile,
             'seo' => $seo,
         ]);
     }
@@ -107,7 +110,7 @@ class CatalogController extends Controller
     public function actionDelete($id)
     {
         if ($model = $this->findModel($id)) {
-            if($model->image) {
+            if ($model->image) {
                 $model->image->delete();
             }
             $model->delete();
@@ -134,12 +137,14 @@ class CatalogController extends Controller
 
     /**
      * Save models catalog and Seo
-     * @param catalog $model
+     * @param Catalog $model
      * @param Seo $seo
      * @param CatalogImage $image
+     * @param CatalogFile $uploadFile
+     * @param [] $catalogProperties
      * @return bool
      */
-    protected function saveModels(&$model, &$seo, &$image)
+    protected function saveModels(&$model, &$seo, &$image, &$uploadFile, $catalogProperties)
     {
         if ($model->validate() && $seo->validate()) {
             if (!empty($seo->title) || !empty($seo->description) || !empty($seo->keywords)) {
@@ -149,6 +154,20 @@ class CatalogController extends Controller
             if ($model->save()) {
                 $model->saveImage(File::PATH_PRODUCT);
                 $model->saveManyImages($image, $model->id);
+                $model->saveManyFiles($uploadFile);
+
+                if ($catalogProperties) {
+                    CatalogProperty::deleteAll(['catalog_id' => $model->id]);
+                    foreach ($catalogProperties as $property) {
+                        if ($property['value']) {
+                            $catalogProperty = new CatalogProperty();
+                            $catalogProperty->catalog_id = $model->id;
+                            $catalogProperty->value_id = $property['value'];
+                            $catalogProperty->save();
+                        }
+                    }
+                }
+
                 return true;
             }
         }

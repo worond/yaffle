@@ -18,6 +18,7 @@ use yii\web\UploadedFile;
  * @property integer $height
  * @property string $alt
  * @property integer $created_at
+ * @property string $title
  *
  * @property string $fullName
  * @property mixed $realPath
