@@ -28,9 +28,15 @@ use yii\widgets\ActiveForm;
 
                 <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-                <?= FormHelper::fieldImage($form, $model); ?>
+                <?= $form->field($model, 'subtitle')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'description')->textarea(['rows' => 6, 'class' => 'ckeditor-custom']) ?>
+
+                <?= FormHelper::fieldImage($form, $model); ?>
+
+                <?= $form->field($model, 'image_title')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'additional_description')->textarea(['rows' => 6, 'class' => 'ckeditor-custom']) ?>
 
                 <?= $form->field($model, 'annotation')->textarea(['rows' => 6]) ?>
 

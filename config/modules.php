@@ -58,6 +58,11 @@ return [
                 'controllerNamespace' => 'app\modules\slider\controllers\backend',
                 'viewPath' => '@app/modules/slider/views/backend',
             ],
+            'partner' => [
+                'class' => 'app\modules\partner\Module',
+                'controllerNamespace' => 'app\modules\partner\controllers\backend',
+                'viewPath' => '@app/modules/partner/views/backend',
+            ],
             'catalog' => [
                 'class' => 'app\modules\catalog\Module',
                 'controllerNamespace' => 'app\modules\catalog\controllers\backend',

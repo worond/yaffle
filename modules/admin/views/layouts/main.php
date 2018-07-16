@@ -77,8 +77,9 @@ AdminCustomAsset::register($this);
                                 'label' => 'Контент', 'icon' => 'fa fa-gg', 'url' => '#',
                                 'items' => [
                                     ['label' => 'Слайдер', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/slider/slider/index']],
-                                    ['label' => 'Услуги', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/service/service/index']],
-                                    ['label' => 'Разделы услуг', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/service/service-category/index']],
+                                    ['label' => 'Партнеры', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/partner/partner/index']],
+                                    /*['label' => 'Услуги', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/service/service/index']],
+                                    ['label' => 'Разделы услуг', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/service/service-category/index']],*/
                                 ]
                             ],
                             [
@@ -89,10 +90,10 @@ AdminCustomAsset::register($this);
                                     ['label' => 'Товары', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/catalog/catalog/index']],
                                 ]
                             ],
-                            [
+                            /*[
                                 'label' => 'Справочники', 'icon' => 'fa fa-cubes', 'url' => '#',
                                 'items' => Content::getContentTypeMenu(),
-                            ],
+                            ],*/
                             [
                                 'label' => 'Новости', 'icon' => 'fa fa-newspaper-o', 'url' => ['/admin/news/default/index']
                             ],
@@ -102,6 +103,7 @@ AdminCustomAsset::register($this);
                                     ['label' => 'Контакты', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/contact/contact/index']],
                                     ['label' => 'Города', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/contact/city/index']],
                                     ['label' => 'Регионы', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/contact/region/index']],
+                                    ['label' => 'Точки продаж', 'icon' => 'fa fa-circle-o', 'url' => ['/admin/contact/store/index']],
                                 ]
                             ],
                             [

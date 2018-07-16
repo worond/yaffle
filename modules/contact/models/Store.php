@@ -6,10 +6,10 @@ use app\modules\admin\components\AdminHelper;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "{{%city}}".
+ * This is the model class for table "{{%store}}".
  *
  * @property integer $id
- * @property integer $region_id
+ * @property integer $city_id
  * @property string $code
  * @property string $name
  * @property string $description
@@ -18,9 +18,9 @@ use yii\db\ActiveRecord;
  * @property integer $active
  * @property integer $position
  *
- * @property Region $region
+ * @property City $city
  */
-class City extends ActiveRecord
+class Store extends ActiveRecord
 {
     use AdminHelper;
 
@@ -29,7 +29,7 @@ class City extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%city}}';
+        return '{{%store}}';
     }
 
     /**
@@ -38,7 +38,7 @@ class City extends ActiveRecord
     public function rules()
     {
         return [
-            [['region_id', 'position', 'active'], 'integer'],
+            [['city_id', 'position', 'active'], 'integer'],
             [['description'], 'string'],
             [['code', 'name', 'coordinates', 'external_link'], 'string', 'max' => 255],
         ];
@@ -51,7 +51,7 @@ class City extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'region_id' => 'Регион',
+            'city_id' => 'Город',
             'code' => 'Псевдоним',
             'name' => 'Название',
             'description' => 'Описание',
@@ -65,8 +65,8 @@ class City extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRegion()
+    public function getCity()
     {
-        return $this->hasOne(Region::className(), ['id' => 'region_id']);
+        return $this->hasOne(City::className(), ['id' => 'city_id']);
     }
 }

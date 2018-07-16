@@ -19,8 +19,11 @@ use yii\db\ActiveRecord;
  * @property string $code
  * @property string $name
  * @property string $title
+ * @property string $subtitle
+ * @property string $image_title
  * @property string $annotation
  * @property string $description
+ * @property string $additional_description
  * @property string $author
  * @property string $external_link
  * @property integer $active
@@ -52,9 +55,9 @@ class News extends ActiveRecord
         return [
             [['user_id', 'category_id', 'image_id', 'seo_id', 'active'], 'integer'],
             [['code', 'name'], 'required'],
-            [['annotation', 'description'], 'string'],
+            [['annotation', 'description', 'additional_description'], 'string'],
             [['created'], 'safe'],
-            [['code', 'name', 'title', 'author', 'external_link'], 'string', 'max' => 255],
+            [['code', 'name', 'title', 'subtitle', 'image_title', 'author', 'external_link'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => NewsCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => File::className(), 'targetAttribute' => ['image_id' => 'id']],
             [['seo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Seo::className(), 'targetAttribute' => ['seo_id' => 'id']],
@@ -73,12 +76,15 @@ class News extends ActiveRecord
             'user_id' => 'Пользователь',
             'category_id' => 'Категория',
             'image_id' => 'Изображение',
+            'image_title' => 'Описание изображения',
             'seo_id' => 'СЕО',
             'code' => 'Псевдоним',
             'name' => 'Название',
             'title' => 'Заголовок',
+            'subtitle' => 'Подзаголовок',
             'annotation' => 'Аннотация',
             'description' => 'Контент',
+            'additional_description' => 'Доролнительный контент',
             'author' => 'Автор',
             'external_link' => 'Ссылка',
             'active' => 'Активность',

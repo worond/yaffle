@@ -1,54 +1,56 @@
 <?php
 
-namespace app\modules\page\controllers\backend;
+namespace app\modules\partner\controllers\backend;
 
+use app\modules\seo\models\Seo;
+use app\modules\partner\models\Partner;
+use app\modules\partner\models\backend\PartnerSearch;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use app\modules\seo\models\Seo;
-use app\modules\page\models\Page;
+
 
 /**
- * DefaultController implements the CRUD actions for Page model.
+ * PartnerController implements the CRUD actions for Partner model.
  */
-class DefaultController extends Controller
+class PartnerController extends Controller
 {
-
     /**
+     * Lists all Partner models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $pageTree = Page::getPageTree();
-        $defaultSeo = Seo::findOne(1);
-        if (!$defaultSeo) {
-            $defaultSeo = new Seo;
-        }
-
-        if ($defaultSeo->load(Yii::$app->request->post())) {
-            if ($defaultSeo->save()) {
-                Yii::$app->getSession()->setFlash('success', 'Метатеги успешно сохранены.');
-            } else {
-                Yii::$app->getSession()->setFlash('error', 'Не удалось сохранить метатеги.');
-            }
-            return $this->redirect(['index']);
-        }
+        $searchModel = new PartnerSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'pageTree' => $pageTree,
-            'defaultSeo' => $defaultSeo
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Creates a new Page model.
+     * Displays a single Partner model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Creates a new Partner model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
         $post = Yii::$app->request->post();
-        $model = new Page;
+        $model = new Partner();
         $seo = new Seo;
 
         if ($model->load($post) && $seo->load($post)) {
@@ -68,7 +70,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Updates an existing Page model.
+     * Updates an existing Partner model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,7 +100,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Deletes an existing Page model.
+     * Deletes an existing Partner model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -109,9 +111,7 @@ class DefaultController extends Controller
             if ($model->image) {
                 $model->image->delete();
             }
-            if ($model->seo) {
-                $model->seo->delete();
-            }
+
             $model->delete();
         }
 
@@ -119,15 +119,15 @@ class DefaultController extends Controller
     }
 
     /**
-     * Finds the Page model based on its primary key value.
+     * Finds the Partner model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Page the loaded model
+     * @return Partner the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Page::findOne($id)) !== null) {
+        if (($model = Partner::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -136,7 +136,7 @@ class DefaultController extends Controller
 
     /**
      * Save models Page and Seo
-     * @param Page $model
+     * @param Partner $model
      * @param Seo $seo
      * @return bool
      */
